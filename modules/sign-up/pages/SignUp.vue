@@ -1,0 +1,46 @@
+<template>
+  <div class="signup-page">
+    <div class="sign-up">
+        <h3>Регистрация</h3>
+        <form class="sign-up__form">
+          <div class="sign-up__item">
+            <p>E-mail</p>
+            <input type="text" placeholder="Введите адрес электронной почты" v-model="email">
+          </div>
+          <div class="sign-up__item">
+            <p>Пароль</p>
+            <input type="password" placeholder="Введите пароль" v-model="password">
+          </div>
+          <div class="sign-up__item">
+            <p>ФИО</p>
+            <input type="text" placeholder="Введите данные" v-model="full_name">
+          </div>
+          <div class="sign-up__item">
+            <p>Логин (ваше имя на сайте)</p>
+            <input type="text" placeholder="Введите данные" v-model="login">
+          </div>
+          <div class="sign-up__item">
+            <button :disabled="!computedValues" :class="{'sign-in__btn-active': computedValues}">
+              Зарегестрироваться
+            </button>
+          </div>
+        </form>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed } from 'vue';
+let email = ref('')
+let password = ref('')
+let full_name = ref('')
+let login = ref('')
+
+const computedValues = computed(() => {
+  return email.value && password.value && full_name.value && login.value
+})
+</script>
+
+<style lang="scss" scoped>
+@import '../../../assets/css/auth/auth.scss';
+</style>

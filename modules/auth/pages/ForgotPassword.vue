@@ -24,6 +24,11 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+useSeoMeta({
+  title: 'сброс пароля'
+})
+
+
 let email = ref('')
 
 const computedValue = computed(() => {

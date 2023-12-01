@@ -1,10 +1,14 @@
 <template>
   <div>
-    main
+    <MainCard />
   </div>
 </template>
 
-<script>
+<script setup>
+import MainCard from '../components/MainCard.vue';
+useSeoMeta({
+  title: 'Портал отзывов об опыте работы в IT компаниях по всему миру'
+})
 
 </script>
 

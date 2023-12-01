@@ -3,9 +3,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@pinia/nuxt',
-    '~/modules/sign-in/module.ts',
-    '~/modules/sign-up/module.ts',
+    '~/modules/auth/module.ts',
     '~/modules/main/module.ts',
-    '~/modules/forgot-password/module.ts'
+    '~/modules/support/module.ts',
+    '~/modules/profile/module.ts',
   ]
 })

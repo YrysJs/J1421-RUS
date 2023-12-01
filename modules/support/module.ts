@@ -3,8 +3,8 @@ import { resolve, join } from "pathe";
 import type { Nuxt } from "@nuxt/schema";
 
 export default defineNuxtModule({
-  name: "sign-up",
-  configKey: "sign-up-module",
+  name: "support",
+  configKey: "support-module",
   setup(options: any, nuxt: Nuxt) {
     nuxt.hook("components:dirs", (dirs) => {
       dirs.push({
@@ -16,12 +16,19 @@ export default defineNuxtModule({
       dirs.push(resolve(__dirname, "./composables"));
     });
 
+    const routes = [
+      {
+        name: "support",
+        path: "/support",
+        file: resolve(__dirname, "./pages/Support.vue"),
+        meta: {
+          title: 'Поддержка'
+        }
+      }
+    ]
+
     nuxt.hook("pages:extend", (pages) => {
-      pages.push({
-        name: "sign-up",
-        path: "/sign-up",
-        file: resolve(__dirname, "./pages/SignUp.vue"),
-      });
+      pages.push(...routes);
     });
   },
 });

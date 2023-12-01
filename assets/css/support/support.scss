@@ -1,0 +1,60 @@
+.support {
+    border-radius: 20px;
+    background: #3A3A3A;
+    box-shadow: 2px 4px 6px 0px rgba(0, 0, 0, 0.25);
+    padding: 52px;
+
+    h3 {
+        color: #FF9700;
+        font-family: JetBrains Mono;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 1.44px;
+        text-transform: uppercase;
+        margin-bottom: 35px;
+    }
+
+    p {
+        color: #D9D9D9;
+        font-family: JetBrains Mono;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0.8px;
+    }
+
+    h4 {
+        color: #9E9E9E;
+        font-family: JetBrains Mono;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: right;
+    }
+
+    textarea {
+        border-radius: 10px;
+        border: 1px solid var(--9E9E9E, #9E9E9E);
+        background: var(--3A3A3A, #3A3A3A);
+        resize: none;
+        padding: 20px;
+        width: 100%;
+        color: #fff;
+    }
+
+    button {
+        margin-top: 21px;
+        border-radius: 30px;
+        background: #FF9700;
+        width: 240px;
+        height: 48px;
+        border: none;
+        outline: none;
+        margin-left: auto;
+        display: block;
+
+        color: #FFF;
+        font-family: JetBrains Mono;
+        font-size: 16px;
+        font-weight: 400;
+        letter-spacing: 0.8px;
+    }
+}

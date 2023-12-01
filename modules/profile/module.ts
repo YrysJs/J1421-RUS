@@ -3,30 +3,32 @@ import { resolve, join } from "pathe";
 import type { Nuxt } from "@nuxt/schema";
 
 export default defineNuxtModule({
-  name: "sign-in",
-  configKey: "sign-in-module",
+  name: "profile",
+  configKey: "profile-module",
   setup(options: any, nuxt: Nuxt) {
-    // Auto register components
     nuxt.hook("components:dirs", (dirs) => {
       dirs.push({
         path: join(__dirname, "components"),
       });
     });
 
-    // Auto register composables
     nuxt.hook("autoImports:dirs", (dirs) => {
       dirs.push(resolve(__dirname, "./composables"));
     });
 
-    // Auto register pages
-    nuxt.hook("pages:extend", (pages) => {
-      pages.push({
-        name: "sign-in",
-        path: "/sign-in",
-        file: resolve(__dirname, "./pages/SignIn.vue"),
-      });
-    });
+    const routes = [
+      {
+        name: "profile",
+        path: "/profile",
+        file: resolve(__dirname, "./pages/Profile.vue"),
+        meta: {
+          title: 'Поддержка'
+        }
+      }
+    ]
 
-    // Pinia store modules are auto imported
+    nuxt.hook("pages:extend", (pages) => {
+      pages.push(...routes);
+    });
   },
 });

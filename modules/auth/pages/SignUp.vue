@@ -4,6 +4,12 @@
         <h3>Регистрация</h3>
         <form class="sign-up__form">
           <div class="sign-up__item">
+            <label class="sign-up__image-prev" for="image">
+              <img src="https://img-new.cgtrader.com/uploads/user/136501/forum_images/1c94c4c9-e960-4505-993b-5bfc48f5a485.png" alt="">
+            </label>
+            <input id="image" style="display: none;" type="file" accept="jpeg">
+          </div>
+          <div class="sign-up__item">
             <p>E-mail</p>
             <input type="text" placeholder="Введите адрес электронной почты" v-model="email">
           </div>
@@ -31,6 +37,9 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+useSeoMeta({
+  title: 'Регистрация'
+})
 let email = ref('')
 let password = ref('')
 let full_name = ref('')

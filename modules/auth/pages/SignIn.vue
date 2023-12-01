@@ -12,7 +12,7 @@
                 <input type="password" name="" id="" placeholder="Введите пароль" v-model="password">
             </div>
             <div class="sign-in__form-submit">
-                <button :disabled="!computedValues" :class="{'sign-in__btn-active': computedValues}">Войти</button>
+                <button :disabled="!computedValues" :class="{'sign-in__btn-active': computedValues}" @click="check">Войти</button>
                 <router-link to="/forgot-password">Забыли пароль?</router-link>
             </div>
         </div>
@@ -22,6 +22,10 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+useSeoMeta({
+  title: 'Авторизация'
+})
+
 let email = ref('')
 let password = ref('')
 

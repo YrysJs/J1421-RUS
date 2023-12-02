@@ -3,7 +3,7 @@
     <Header :auth="true"/>
     <div class="container">
       <h3 class="main-title">
-        Портал отзывов об опыте работы в IT компаниях по всему миру
+        Портал отзывов об опыте работы в IT компаниях по всему миру 
       </h3>
       <router-view></router-view>
     </div>

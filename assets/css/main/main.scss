@@ -4,6 +4,7 @@
         display: grid;
         grid-template-columns: 3fr 1fr;
         border-radius: 0px 30px 30px 0px;
+        margin-bottom: 30px;
 
         &__date {
             color: #000;
@@ -44,7 +45,7 @@
         }
 
         &__user {
-            max-width: 438px;
+            max-width: 500px;
             position: relative;
             img {
                 width: 60px;
@@ -77,6 +78,146 @@
         }
     }
 
+    &-filters {
+        display: flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom: 20px;
+        margin-top: 20px;
+
+        button {
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: #FFF;
+            font-family: JetBrains Mono;
+            font-size: 14px;
+            font-weight: 400;
+        }
+    }
+
+    &-filter {
+        margin-bottom: 30px;
+        padding: 40px 50px;
+        border-radius: 20px;
+        background: #3A3A3A;
+        position: relative;
+
+        &__close {
+            position:absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        &__notnull {
+            border-color: #11EFE2 !important;
+        }
+
+        &__hight {
+            background: #11EFE21A !important;
+        }
+        &__low {
+            background: #FF6C4326 !important;
+        }
+
+        &__apply {
+            color: #FFF;
+            text-align: center;
+            font-family: JetBrains Mono;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.9px;
+
+            border-radius: 14px;
+            background: #FF9700;
+            box-shadow: 2px 3px 3px 0px rgba(0, 0, 0, 0.25);
+            min-width: 300px;
+            height: 45px;
+            margin: auto;
+            display: block;
+            margin-top: 30px;
+        }
+
+        h3 {
+            color: #FF9700;
+            font-family: JetBrains Mono;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1.44px;
+            text-transform: uppercase;
+        }
+
+        &__container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 40px;
+            padding-right: 40px;
+        }
+
+        &__left {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            div {
+                display: flex;
+                align-items: center;
+            }
+            span {
+                width: 170px;
+                display: inline-block;
+
+                color: var(--D9D9D9, #D9D9D9);
+                font-family: JetBrains Mono;
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: 0.8px;
+            }
+
+            input {
+                border-radius: 20px;
+                background: transparent;
+                border: 2px solid #3371E3;
+                min-width: 300px;
+                height: 40px;
+                padding-left: 20px;
+                color: #fff;
+                font-family: JetBrains Mono;
+            }
+        }
+
+        &__right {
+            display: flex;
+
+            button {
+                width: 200px;
+                height: 40px;
+                background: rgba(19, 24, 30, 0.40);
+                text-align: center;
+                font-family: JetBrains Mono;
+                font-size: 14px;
+                font-weight: 400;
+
+                &:first-child {
+                    border: 2px solid #9E9E9E !important;
+                    border-right: 1px solid #9E9E9E !important;
+                    border-radius: 10px 0px 0px 10px;
+                    color: #11EFE2;
+                }
+                &:last-child {
+                    color: #FF6C43;
+                    border-radius: 0px 10px 10px 0px;
+                    border: 2px solid #9E9E9E !important;
+                    border-left: 1px solid #9E9E9E !important;
+                }
+            }
+        }
+    }
 
     &-card__center {
         margin-top: 24px;
@@ -378,8 +519,7 @@
         display: flex;
         flex-direction: row;
         gap: 35px;
-        padding-top: 35px;
-        padding-bottom: 35px;
+        padding-top: 30px;
 
         > div {
             display: flex;

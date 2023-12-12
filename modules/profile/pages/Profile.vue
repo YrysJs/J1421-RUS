@@ -53,13 +53,26 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted  } from 'vue';
+import { useProfileStore } from '../store/store'
+
+//store & props
+const profile = useProfileStore()
 
 //page
 useSeoMeta({
   title: 'Мой профиль'
 })
+definePageMeta({
+  middleware: [
+    'auth',
+  ]
+});
 
+//lifecycle
+onMounted( () => {
+  profile.fetchUserProfile()
+})
 
 // states
 let email = ref('')

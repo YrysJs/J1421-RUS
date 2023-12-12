@@ -7,5 +7,6 @@ export default defineNuxtConfig({
     '~/modules/main/module.ts',
     '~/modules/support/module.ts',
     '~/modules/profile/module.ts',
+    '~/modules/my-review/module.ts',
   ]
 })

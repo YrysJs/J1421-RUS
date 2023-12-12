@@ -2,7 +2,7 @@
   <div class="signup-page">
     <div class="sign-up">
         <h3>Регистрация</h3>
-        <form class="sign-up__form">
+        <form class="sign-up__form" @submit="createUser">
           <div class="sign-up__item">
             <label class="sign-up__image-prev" for="image">
               <img src="https://img-new.cgtrader.com/uploads/user/136501/forum_images/1c94c4c9-e960-4505-993b-5bfc48f5a485.png" alt="">
@@ -23,7 +23,7 @@
           </div>
           <div class="sign-up__item">
             <p>Логин (ваше имя на сайте)</p>
-            <input type="text" placeholder="Введите данные" v-model="login">
+            <input type="text" placeholder="Введите данные" v-model="username">
           </div>
           <div class="sign-up__item">
             <button :disabled="!computedValues" :class="{'sign-in__btn-active': computedValues}">
@@ -37,17 +37,37 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useAuthStore } from '../store/sotre';
+
+//store
+const authStore = useAuthStore()
+
+//page
 useSeoMeta({
   title: 'Регистрация'
 })
+
+//states
 let email = ref('')
 let password = ref('')
 let full_name = ref('')
-let login = ref('')
+let username = ref('')
 
+// computed
 const computedValues = computed(() => {
-  return email.value && password.value && full_name.value && login.value
+  return email.value && password.value && full_name.value && username.value
 })
+
+//methods
+const createUser = (e) => {
+  e.preventDefault()
+  authStore.createUser({
+    email: email.value,
+    password: password.value,
+    // full_name: full_name.value,
+    username: username.value
+  })
+}
 </script>
 
 <style lang="scss" scoped>

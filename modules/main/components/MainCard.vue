@@ -4,33 +4,33 @@
         <div class="main-card__top">
             <div class="main-card__user">
                 <img src="https://s3-alpha-sig.figma.com/img/c790/3eb4/77159e3aeb2cf39ac02f2a144d28f99b?Expires=1701043200&Signature=gps4fKWHYm6L654IaqMG4lHaSpeYRCr5beE5l6HpBypi39Ff3SddE5QWqg7~EeFxXGqJ6E5PB6Accfogwv-hWi0jNP7lgcOfAv68Nq5KWZPXaBfdyUxkRO9EFWE~23Vfmu4sD-xiPtbQQ0DmT9N3aAHSbjouHsjsT0xLPPEpiGCS~~CgOpXnHtIvTcXTtpXFRTQT60uxsWblyzFVwXXI8f3E5kU-mG~P8bV-FTMuGqnb7c0JJALBhxuMaZQ-TX5MjiN7zjBUrbwIBrodh1Kg3wjAmB9SPdKIxlQD7qhj61VmCwBd2ILxH4~16hJiVgGTGfiG8yt2P~EGJExbaD6KbA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4" alt="">
-                <span class="main-card__user-name">Иван Петрович Карамелька</span>
+                <span class="main-card__user-name">{{ post.author }}</span>
                 <div class="main-card__user-position">
-                    <p>Data Scientist</p>
-                    <p>с 12.2022 по 11.2023</p>
+                    <p>{{ post.position }}</p>
+                    <p>с {{ post.work_time_from }} по {{ post.work_time_to }}</p>
                 </div>
                 <div class="main-card__line"></div>
             </div>
             <div class="main-card__date">
-                Добавлено: <span>17.04.2022</span>
+                Добавлено: <span>{{ formatedDate(post.created_at) }}</span>
             </div>
         </div>
         <div class="main-card__center" :class='{"main-card__center-full": cardState}'>
             <h3>
-                О том, как я 3 месяца трудился в Яндекс, и что из этого получилось. Плюсы и минусы компании, социальный пакет, и реальность “удаленки” на позиции Data Scientist.
+                {{ post.title }}
             </h3>
             <p>
-                Вообще считаю Яндекс нормальной компанией, однозначно есть огромные плюсы, но и  по факту неизвестно есть ли все "плюшки", которые обещают. На первом собеседовании все доброжелательные, красиво рисуют работу у них. На Вообще считаю Яндекс нормальной компанией, однозначно есть огромные плюсы, но и  по факту неизвестно есть ли все "плюшки", которые обещают. На первом собеседовании все доброжелательные, красиво рисуют работу у них. На 
+                {{ post.body }}
             </p>
             <div class="main-card__recall">
                 <div class="main-card__recall-negative">
                     <h3>Из негативного =</h3>
-                    <p>не было особых минусов</p>
+                    <p>{{ post.negative }}</p>
                 </div>
                 <div class="main-card__recall-positive">
                     <h3>Особенно классно было:</h3>
                     <p>
-                        Классно было все. Особенно печеньки в офисе! Приобрел много единомышленников и друзей! иорлвыоримридор Особенно печеньки в офисе!Классно было все. Особенно печеньки в офисе! Приобрел много единомышленников и друзей! иорлвыоримридор Особенно печеньки в офисе!  
+                        {{ post.positive }}  
                     </p>
                 </div>
             </div>
@@ -38,7 +38,7 @@
         <div class="main-card__bottom">
             <div>
                 <button> 545 <img src="../../../assets/icon/view.svg" alt=""></button>
-                <button> 545 <img src="../../../assets/icon/like.svg" alt=""></button>
+                <button> {{ post.likes_count }} <img src="../../../assets/icon/like.svg" alt=""></button>
                 <button @click="showComment"> 545 <img src="../../../assets/icon/comment.svg" alt=""></button>
             </div>
             <button class="main-card__bottom-more" @click="showCard">
@@ -52,7 +52,7 @@
         </div>
         <div class="main-card__right-item">
             <span>Общая оценка компании</span>
-            <span class="total">4.5 </span>
+            <span class="total">{{ post.average_rating.toFixed(1) }}</span>
             <div class="star">
                 <svg xmlns="http://www.w3.org/2000/svg" width="38" height="36" viewBox="0 0 38 36" fill="none">
                     <path d="M18.072 1.31085C18.4079 0.474382 19.5921 0.474381 19.928 1.31085L24.1972 11.9421C24.3402 12.2983 24.6745 12.5412 25.0575 12.5672L36.4877 13.3422C37.387 13.4032 37.7529 14.5293 37.0612 15.1073L28.2695 22.4528C27.975 22.6989 27.8473 23.0919 27.9409 23.4642L30.736 34.5744C30.9559 35.4485 29.9979 36.1446 29.2345 35.6653L19.5317 29.5738C19.2066 29.3697 18.7934 29.3697 18.4683 29.5738L8.76554 35.6653C8.00212 36.1446 7.04413 35.4485 7.26405 34.5744L10.0591 23.4642C10.1527 23.0919 10.025 22.6989 9.73046 22.4528L0.938804 15.1073C0.247074 14.5293 0.612992 13.4032 1.51232 13.3422L12.9425 12.5672C13.3255 12.5412 13.6598 12.2983 13.8028 11.9421L18.072 1.31085Z" fill="#FF9700"/>
@@ -111,6 +111,10 @@
 
 <script setup>
 import { ref } from 'vue';
+import { defineProps } from 'vue';
+
+//store & props
+const props = defineProps(['post'])
 
 // states
 const cardState = ref(false)
@@ -123,6 +127,9 @@ const showCard = () => {
 const showComment = () => {
     commentState.value = !commentState.value
 }
+const formatedDate = (value) => {
+    return new Date(value).toISOString().split('T')[0]
+} 
 
 </script>
 

@@ -12,7 +12,7 @@
                 <input type="password" name="" id="" placeholder="Введите пароль" v-model="password">
             </div>
             <div class="sign-in__form-submit">
-                <button :disabled="!computedValues" :class="{'sign-in__btn-active': computedValues}" @click="check">Войти</button>
+                <button :disabled="!computedValues" :class="{'sign-in__btn-active': computedValues}" @click="signIn">Войти</button>
                 <router-link to="/forgot-password">Забыли пароль?</router-link>
             </div>
         </div>
@@ -22,17 +22,38 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useAuthStore } from '../store/sotre';
+import { useRouter } from 'vue-router';
+
+// store & router
+const router = useRouter()
+const authStore = useAuthStore()
+
+//page
 useSeoMeta({
   title: 'Авторизация'
 })
 
+
+// states
 let email = ref('')
 let password = ref('')
 
+
+//computeds
 const computedValues = computed(() => {
   return email.value && password.value
 })
 
+
+//methods
+const signIn = async () => {
+  await authStore.fetchUserInfo({
+    email: email.value, 
+    password: password.value
+  })
+  window.location.href = '/'
+}
 </script>
 
 <style lang="scss" scoped>

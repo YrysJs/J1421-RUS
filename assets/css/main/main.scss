@@ -84,6 +84,8 @@
         align-items:center;
         margin-bottom: 20px;
         margin-top: 20px;
+        position: relative;
+
 
         button {
             background: transparent;
@@ -216,6 +218,29 @@
                     border-left: 1px solid #9E9E9E !important;
                 }
             }
+        }
+    }
+
+    &-sorting {
+        position: absolute;
+        top: 30px;
+        right: 0px;
+        display: flex;
+        flex-direction: column;
+        max-width: 200px;
+        margin-left: auto;
+        z-index: 1;
+        background: #13181E;
+
+        button {
+            padding: 10px 20px;
+            display: flex;
+            justify-content:center;
+            border: 1px solid gray;
+        }
+
+        &__active {
+            background:rgb(68, 68, 68) !important;
         }
     }
 

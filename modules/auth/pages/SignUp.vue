@@ -59,14 +59,16 @@ const computedValues = computed(() => {
 })
 
 //methods
-const createUser = (e) => {
+const createUser = async (e) => {
   e.preventDefault()
-  authStore.createUser({
+  await authStore.createUser({
     email: email.value,
     password: password.value,
     // full_name: full_name.value,
     username: username.value
   })
+
+  window.location.href = '/'
 }
 </script>
 

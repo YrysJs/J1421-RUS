@@ -5,8 +5,8 @@
         <h3>
           Найти отзыв по работодателю: 
         </h3>
-        <form>
-          <input type="search">
+        <form @submit.prevent="search">
+          <input type="search" v-model="queryState.search" @input="search">
         </form>
         <button>Добавить работодателя</button>
       </div>
@@ -20,7 +20,7 @@
       <h3>Чтобы оставить отзыв требуется регистрация, это займет всего 30 секунд</h3>
       <button>Регистрирация</button>
     </Modal>
-    <div class="main-cheaps">
+    <!-- <div class="main-cheaps">
       <button @click="sliderScroled('-')">&#8701;</button>
       <div ref="slider">
         <button v-for="item of fakeCheaps" :key="item">
@@ -28,7 +28,7 @@
         </button>
       </div>
       <button @click="sliderScroled('+')">&#8702;</button>
-    </div>
+    </div> -->
     <div class="main-filters">
       <button @click="filterState = !filterState">
         Фильтры 
@@ -36,7 +36,7 @@
           <path d="M19 1L10 10L1 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <button>
+      <button @click="sortingState = !sortingState">
         Сортировка
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="20" viewBox="0 0 26 20" fill="none">
           <line x1="2" y1="3" x2="24" y2="3" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -44,7 +44,12 @@
           <line x1="14" y1="15" x2="24" y2="15" stroke="white" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
+      <div class="main-sorting" v-if="sortingState">
+        <button @click="selectedSortType('created_at')" :class="{'main-sorting__active': queryState.ordering == 'created_at'}">Сначала новые</button>
+        <button @click="selectedSortType('-created_at')" :class="{'main-sorting__active': queryState.ordering == '-created_at'}">Сначала популярные</button>
+      </div>
     </div>
+    
     <div class="main-filter" v-show="filterState">
       <h3>Найти отзыв: </h3>
       <div class="main-filter__close" @click="filterState = false">
@@ -55,7 +60,7 @@
       <div class="main-filter__container">
         <div class="main-filter__left">
           <div>
-            <span>По сфере деятельности</span> <input type="text" :class="{'main-filter__notnull': queryState.job}" v-model="queryState.job">
+            <span>По сфере деятельности</span> <input type="text" :class="{'main-filter__notnull': queryState.field_of_activity}" v-model="queryState.field_of_activity">
           </div>
           <div>
             <span>По должности</span> <input type="text" :class="{'main-filter__notnull': queryState.position}" v-model="queryState.position">
@@ -72,7 +77,7 @@
       <div class="main-filter_result">
 
       </div>
-      <button class="main-filter__apply">Найти</button>
+      <button class="main-filter__apply" @click="search">Найти</button>
     </div>
     <template v-for="(item, index) of storeMain.getReviews" :key="index">
       <MainCard :post="item"/>
@@ -95,7 +100,10 @@ const router = useRouter()
 
 //lifecycle
 onMounted( () => {
-  storeMain.fetchReviews()
+  const currentQuery = router.currentRoute.value.query;
+  console.log(currentQuery);
+
+  storeMain.fetchReviews(currentQuery)
 })
 
 //page
@@ -109,11 +117,14 @@ const slider = ref(null)
 const fakeCheaps = ['front1','front2','front3','front4','front5','front6','front7','front8','front9','front10','front11',]
 const modalState = ref(false)
 const filterState = ref(false)
+const sortingState = ref(false)
 const queryState = ref({
-  job: '',
+  search: '',
+  field_of_activity: '',
   position: '',
   location: '',
-  rating: ''
+  rating: '',
+  ordering: ''
 })
 
 //methods
@@ -124,10 +135,16 @@ const sliderScroled = (value) => {
     slider.value.scrollLeft -= 450;
   }
 }
+const search = () => {
+  filterState.value = false
+  const currentQuery = router.currentRoute.value.query;
+
+  queryFormated()
+}
 
 const addReview = () => {
   if (storeAuth.user) {
-    router.push('/my-review')
+    router.push('/add-review')
   } else {
     modalState.value = true
   }
@@ -135,7 +152,35 @@ const addReview = () => {
 const closeModal = () => {
   modalState.value = false
 }
+const selectedSortType = (val) => {
+  queryState.value.ordering = val
 
+  sortingState.value = false
+
+  queryFormated()
+}
+
+
+
+
+// helpers
+function queryFormated () {
+  const currentQuery = router.currentRoute.value.query;
+
+  const updatedQuery = { ...currentQuery };
+
+  for (const key in queryState.value) {
+    if (queryState.value[key] !== '') {
+      updatedQuery[key] = queryState.value[key];
+    } else {
+      delete updatedQuery[key];
+    }
+  }
+
+  router.push({ query: updatedQuery });
+
+  storeMain.fetchSearchResults(updatedQuery);
+}
 </script>
 
 <style lang="scss" scoped>

@@ -19,8 +19,15 @@ export const useAuthStore = defineStore('auth', () => {
         setCookie('access_token', data.tokens.access, {expires: 3})
         setCookie('refresh_token', data.tokens.refresh, {expires: 3})
     }
-    const createUser = async(data) => {
-        const response = await axios.post('https://web-production-51b6.up.railway.app/api/register/', data)
+    const createUser = async(obj) => {
+        const { data } = await axios.post('https://web-production-51b6.up.railway.app/api/register/', obj)
+
+        data.tokens.access ? user.value = true : user.value = false
+        data.id ? userId.value = data.id : userId.value = null 
+
+        setCookie('user_id', data.id)
+        setCookie('access_token', data.tokens.access, {expires: 3})
+        setCookie('refresh_token', data.tokens.refresh, {expires: 3})
     }
     const logout = () => {
         user.value = false

@@ -45,8 +45,8 @@
         </svg>
       </button>
       <div class="main-sorting" v-if="sortingState">
-        <button @click="selectedSortType('created_at')" :class="{'main-sorting__active': queryState.ordering == 'created_at'}">Сначала новые</button>
-        <button @click="selectedSortType('-created_at')" :class="{'main-sorting__active': queryState.ordering == '-created_at'}">Сначала популярные</button>
+        <button @click="selectedSortType('created_at')" :class="{'main-sorting__active': queryState.ordering == 'created_at'}">Сначала старые</button>
+        <button @click="selectedSortType('-created_at')" :class="{'main-sorting__active': queryState.ordering == '-created_at'}">Сначала новые</button>
       </div>
     </div>
     
@@ -60,13 +60,31 @@
       <div class="main-filter__container">
         <div class="main-filter__left">
           <div>
-            <span>По сфере деятельности</span> <input type="text" :class="{'main-filter__notnull': queryState.field_of_activity}" v-model="queryState.field_of_activity">
+            <span>По сфере деятельности</span>
+            <input list="act" type="text" :class="{'main-filter__notnull': queryState.field_of_activity}" v-model="queryState.field_of_activity">
+            <datalist id="act">
+              <template v-for="(item, index) in storeMain.getActivity">
+                <option :value="index">{{ item }}</option>
+              </template>
+            </datalist>
           </div>
           <div>
-            <span>По должности</span> <input type="text" :class="{'main-filter__notnull': queryState.position}" v-model="queryState.position">
+            <span>По должности</span> 
+            <input list="pos" type="text" :class="{'main-filter__notnull': queryState.position}" v-model="queryState.position">
+            <datalist id="pos">
+              <template v-for="(item, index) of storeMain.getPositions">
+                <option :value="item"></option>
+              </template>
+            </datalist>
           </div>
           <div>
-            <span>По локации </span> <input type="text" :class="{'main-filter__notnull': queryState.location}" v-model="queryState.location">
+            <span>По локации </span> 
+            <input list="loc" type="text" :class="{'main-filter__notnull': queryState.location}" v-model="queryState.location">
+            <datalist id="loc">
+              <template v-for="(item, index) of storeMain.getLocations">
+                <option :value="item"></option>
+              </template>
+            </datalist>
           </div>
         </div>
         <div class="main-filter__right">
@@ -90,8 +108,9 @@ import MainCard from '../components/MainCard.vue';
 import Modal from '~/components/Modal.vue';
 import { useMainStore } from '../store/store'
 import { useAuthStore } from '~/modules/auth/store/sotre';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router';
+import { useAsyncData } from 'nuxt/app';
 
 //store & props && router
 const storeMain = useMainStore()
@@ -99,11 +118,11 @@ const storeAuth = useAuthStore()
 const router = useRouter()
 
 //lifecycle
-onMounted( () => {
+onBeforeMount( () => {
   const currentQuery = router.currentRoute.value.query;
-  console.log(currentQuery);
 
   storeMain.fetchReviews(currentQuery)
+  storeMain.fetchFields()
 })
 
 //page

@@ -4,7 +4,7 @@
     <div class="my-review__container">
       <h4 v-if="!store.getMyReview.length">Вы пока не написали отзыв</h4>
       <template v-else>
-        <MyReviewCard v-for="(item, index) of store.getReviews" :key="index" :post="item"/>
+        <MyReviewCard v-for="(item, index) of store.getMyReview" :key="index" :post="item"/>
       </template>
     </div>
   </div>

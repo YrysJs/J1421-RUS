@@ -38,7 +38,7 @@
         <div class="main-card__bottom">
             <div>
                 <button> 545 <img src="../../../assets/icon/view.svg" alt=""></button>
-                <button> {{ post.likes_count }} <img src="../../../assets/icon/like.svg" alt=""></button>
+                <button @click="likeedPost"> {{ post.likes_count }} <img src="../../../assets/icon/like.svg" alt=""></button>
                 <button @click="showComment"> 545 <img src="../../../assets/icon/comment.svg" alt=""></button>
             </div>
             <button class="main-card__bottom-more" @click="showCard">
@@ -48,7 +48,7 @@
     </div>
     <div class="main-card__right">
         <div class="main-card__right-item">
-            Яндекс.Такси (Яндекс GO)
+            {{ post.company }}
         </div>
         <div class="main-card__right-item">
             <span>Общая оценка компании</span>
@@ -68,7 +68,7 @@
                 </svg>
             </div>
         </div>
-        <div class="main-card__right-item hashtag">
+        <!-- <div class="main-card__right-item hashtag">
             <div class="main-card__right-item-hashtag" style="--my-color: #11EFE2">#friendly </div>
             <div class="main-card__right-item-hashtag" style="--my-color: #57C2FF">#рекомендую </div>
             <div class="main-card__right-item-hashtag" style="--my-color: #D09FD3">#Data Scientist </div>
@@ -76,35 +76,45 @@
             <div class="main-card__right-item-hashtag" style="--my-color: #FFBC39">#рекомендую </div>
             <div class="main-card__right-item-hashtag" style="--my-color: #00BD0A">#friendly </div>
             <div class="main-card__right-item-hashtag" style="--my-color: #6ABD00">#interested  </div>
-        </div>
+        </div> -->
     </div>
     <div class="main-card__comment" v-if="commentState">
-        <div class="main-card__comment-item">
-            <div class="main-card__comment-item__top">
-                <div class="main-card__comment-item__top-left">
-                    <div class="main-card__user">
-                        <img src="https://s3-alpha-sig.figma.com/img/c790/3eb4/77159e3aeb2cf39ac02f2a144d28f99b?Expires=1701043200&Signature=gps4fKWHYm6L654IaqMG4lHaSpeYRCr5beE5l6HpBypi39Ff3SddE5QWqg7~EeFxXGqJ6E5PB6Accfogwv-hWi0jNP7lgcOfAv68Nq5KWZPXaBfdyUxkRO9EFWE~23Vfmu4sD-xiPtbQQ0DmT9N3aAHSbjouHsjsT0xLPPEpiGCS~~CgOpXnHtIvTcXTtpXFRTQT60uxsWblyzFVwXXI8f3E5kU-mG~P8bV-FTMuGqnb7c0JJALBhxuMaZQ-TX5MjiN7zjBUrbwIBrodh1Kg3wjAmB9SPdKIxlQD7qhj61VmCwBd2ILxH4~16hJiVgGTGfiG8yt2P~EGJExbaD6KbA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4" alt="">
-                        <span class="main-card__user-name">Иван Петрович Карамелька</span>
-                        <div class="main-card__line"></div>
+        <div class="main-card__comment-add">
+            <textarea placeholder="Написать комментарий" name="" id="" cols="30" rows="10" v-model="comment"></textarea>
+            <button @click="addComment">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <path d="M21.4602 19.08C19.2231 18.8984 15.6416 18.7149 10.5 18.5186V10.3579C10.5 9.22124 11.715 8.49758 12.7144 9.03895L30.5671 18.7091C31.6065 19.2721 31.6165 20.7602 30.5849 21.3372L12.7322 31.3223C11.7324 31.8816 10.5 31.1588 10.5 30.0132V21.9675C14.3941 21.7046 17.6361 21.4709 20.0052 21.2563C21.2361 21.1448 22.238 21.0378 22.9761 20.9337C23.3446 20.8817 23.6548 20.8294 23.8982 20.776C24.1202 20.7273 24.3499 20.6654 24.5087 20.571C24.5631 20.5387 24.7808 20.4066 24.8149 20.1307C24.8551 19.8062 24.6156 19.6274 24.5465 19.5815C24.4516 19.5185 24.343 19.4782 24.2533 19.4502C24.1559 19.4198 24.0427 19.3925 23.9175 19.3672C23.4235 19.2675 22.6077 19.1732 21.4602 19.08Z" stroke="#FF9700"/>
+                </svg>
+            </button>
+        </div>
+        <template v-for="(item, index) of store.getPostComments">
+            <div class="main-card__comment-item">
+                <div class="main-card__comment-item__top">
+                    <div class="main-card__comment-item__top-left">
+                        <div class="main-card__user">
+                            <img src="https://s3-alpha-sig.figma.com/img/c790/3eb4/77159e3aeb2cf39ac02f2a144d28f99b?Expires=1701043200&Signature=gps4fKWHYm6L654IaqMG4lHaSpeYRCr5beE5l6HpBypi39Ff3SddE5QWqg7~EeFxXGqJ6E5PB6Accfogwv-hWi0jNP7lgcOfAv68Nq5KWZPXaBfdyUxkRO9EFWE~23Vfmu4sD-xiPtbQQ0DmT9N3aAHSbjouHsjsT0xLPPEpiGCS~~CgOpXnHtIvTcXTtpXFRTQT60uxsWblyzFVwXXI8f3E5kU-mG~P8bV-FTMuGqnb7c0JJALBhxuMaZQ-TX5MjiN7zjBUrbwIBrodh1Kg3wjAmB9SPdKIxlQD7qhj61VmCwBd2ILxH4~16hJiVgGTGfiG8yt2P~EGJExbaD6KbA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4" alt="">
+                            <span class="main-card__user-name">{{ item.author }}</span>
+                            <div class="main-card__line"></div>
+                        </div>
+                    </div>
+                    <div class="main-card__comment-item__top-right">
+                        {{ item.created_at }}
                     </div>
                 </div>
-                <div class="main-card__comment-item__top-right">
-                    17.04.2022
+                <div class="main-card__comment-item__center">
+                    {{ item.body }}
+                </div>
+                <div class="main-card__comment-item__bottom">
+                    <button>Ответить</button>
+                    <button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                            <path d="M4 8.98717C4 8.5794 4.2793 8.21455 4.68482 8.0409C5.57053 7.66142 7.07929 6.89904 7.75982 5.86839C8.63693 4.53972 8.80236 2.13942 8.82921 1.58971C8.83297 1.51264 8.83083 1.43557 8.84211 1.35948C8.98766 0.406873 11.0121 1.51947 11.7882 2.69596C12.2098 3.33396 12.2635 4.17243 12.2195 4.8275C12.1717 5.52793 11.9456 6.20446 11.7237 6.87661L11.2511 8.30918H17.0825C17.2485 8.30917 17.4122 8.34408 17.5609 8.41118C17.7095 8.47828 17.8389 8.57575 17.9391 8.69592C18.0393 8.81609 18.1074 8.95571 18.1382 9.10382C18.169 9.25193 18.1616 9.4045 18.1165 9.54957L15.2322 18.8249C15.1685 19.0295 15.033 19.2096 14.8463 19.3378C14.6595 19.466 14.4318 19.5353 14.1977 19.5351H5.07423C4.78933 19.5351 4.51609 19.4323 4.31464 19.2494C4.11318 19.0664 4 18.8183 4 18.5596V8.98717Z" stroke="#D9D9D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M1 9.3916L1 18.9739" stroke="#D9D9D9" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div class="main-card__comment-item__center">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil neque dicta necessitatibus facere veritatis repellat illo, voluptas sapiente? Corporis praesentium dolore ut delectus eos, eum soluta in illo quia quisquam!
-            </div>
-            <div class="main-card__comment-item__bottom">
-                <button>Ответить</button>
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
-                        <path d="M4 8.98717C4 8.5794 4.2793 8.21455 4.68482 8.0409C5.57053 7.66142 7.07929 6.89904 7.75982 5.86839C8.63693 4.53972 8.80236 2.13942 8.82921 1.58971C8.83297 1.51264 8.83083 1.43557 8.84211 1.35948C8.98766 0.406873 11.0121 1.51947 11.7882 2.69596C12.2098 3.33396 12.2635 4.17243 12.2195 4.8275C12.1717 5.52793 11.9456 6.20446 11.7237 6.87661L11.2511 8.30918H17.0825C17.2485 8.30917 17.4122 8.34408 17.5609 8.41118C17.7095 8.47828 17.8389 8.57575 17.9391 8.69592C18.0393 8.81609 18.1074 8.95571 18.1382 9.10382C18.169 9.25193 18.1616 9.4045 18.1165 9.54957L15.2322 18.8249C15.1685 19.0295 15.033 19.2096 14.8463 19.3378C14.6595 19.466 14.4318 19.5353 14.1977 19.5351H5.07423C4.78933 19.5351 4.51609 19.4323 4.31464 19.2494C4.11318 19.0664 4 18.8183 4 18.5596V8.98717Z" stroke="#D9D9D9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M1 9.3916L1 18.9739" stroke="#D9D9D9" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
+        </template>
     </div>
   </div>
 </template>
@@ -112,13 +122,16 @@
 <script setup>
 import { ref } from 'vue';
 import { defineProps } from 'vue';
+import { useMainStore } from '../store/store';
 
 //store & props
 const props = defineProps(['post'])
+const store = useMainStore()
 
 // states
 const cardState = ref(false)
 const commentState = ref(false)
+const comment = ref('')
 
 //methods
 const showCard = () => {
@@ -126,11 +139,22 @@ const showCard = () => {
 }
 const showComment = () => {
     commentState.value = !commentState.value
+    if (commentState.value) store.fetchPostCommentsById(props.post.id)
 }
 const formatedDate = (value) => {
     return new Date(value).toISOString().split('T')[0]
-} 
+}
+const likeedPost = () => {
+    store.addLike(props.post.id)
+}
+const addComment = () => {
+    let obj = {
+        body: comment.value,
+        post: props.post.id
+    }
 
+    store.addComment(props.post.id, obj)
+}
 </script>
 
 <style lang="scss" scoped>

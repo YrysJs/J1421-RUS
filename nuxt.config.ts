@@ -18,6 +18,7 @@ export default defineNuxtConfig({
       name: 'page', mode: 'out-in'
     }
   },
+  ssr: true,
   modules: [
     '@pinia/nuxt',
     '~/modules/auth/module.ts',

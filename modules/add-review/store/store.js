@@ -10,10 +10,15 @@ export const useAddReviewStore = defineStore('add-review', () => {
     const addRatingForReviewById = async (id, obj) => {
         const response = await api.put(`/post/${id}`)
     } 
-    const addReview = async (obj) => {
-        const { data } = await api.post('/post/', obj)
+    const addReview = async (reviewObj, ratingObj) => {
+        const { data } = await api.post('/post/', reviewObj)
 
-        console.log(data);
+        const rating = {
+            ...ratingObj,
+            post: data.id
+        }
+
+        const response = await api.post(`/post/${data.id}/rating/`, rating)
     }
     const fetchReviewById = async (id) => {
         const { data } = await api.get(`/post/${id}/`)

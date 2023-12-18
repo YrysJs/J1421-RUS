@@ -48,7 +48,9 @@ export const useMainStore = defineStore('mainStore', () => {
         const { data } = await api.get(`/post/${id}/comment/`)
         postComments.value = data    
     }
-
+    const updatePostViewById = async (id) => {
+        const response = await api.get(`/post/view/${id}/`)
+    }
 
     //getters
     const getReviews = computed( () => {
@@ -70,5 +72,22 @@ export const useMainStore = defineStore('mainStore', () => {
         return postComments.value
     })
 
-    return { reviews, fetchReviews, getReviews, fetchSearchResults, searchResults, getSearchResults, activityList, locationList, positionList, fetchFields, getLocations, getPositions, getActivity, addLike, addComment, postComments, getPostComments, fetchPostCommentsById}
+    return { 
+        reviews,
+        fetchReviews, 
+        getReviews, 
+        fetchSearchResults, 
+        searchResults,
+        getSearchResults, 
+        activityList, locationList, 
+        positionList, 
+        fetchFields, 
+        getLocations, 
+        getPositions, 
+        getActivity, 
+        addLike, 
+        addComment, 
+        postComments, 
+        getPostComments, 
+        fetchPostCommentsById, updatePostViewById}
 })

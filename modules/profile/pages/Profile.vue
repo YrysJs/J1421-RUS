@@ -7,7 +7,7 @@
             <label class="sign-up__image-prev" for="image">
               <img src="https://img-new.cgtrader.com/uploads/user/136501/forum_images/1c94c4c9-e960-4505-993b-5bfc48f5a485.png" alt="">
             </label>
-            <input id="image" style="display: none;" type="file" accept="jpeg">
+            <input id="image" style="display: none;" type="file" accept="img/*" @change="uploadFile">
           </div>
           <div class="sign-up__item">
             <p>E-mail</p>
@@ -75,6 +75,7 @@ onMounted( () => {
 })
 
 // states
+let avatar = ref(null)
 let email = ref('')
 let password = ref('')
 let full_name = ref('')
@@ -91,6 +92,14 @@ const computedValues = computed(() => {
 //methods
 const modalAction = (val) => {
   modal.value = val
+}
+const uploadFile = (event) => {
+  avatar.value = event.target.files[0];
+
+  let formData = new FormData()
+      formData.append('avatar', avatar.value)
+
+  profile.uploadProfileAvatar(formData)
 }
 </script>
 

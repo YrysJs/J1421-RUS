@@ -136,6 +136,7 @@ const comment = ref('')
 //methods
 const showCard = () => {
     cardState.value = !cardState.value
+    store.updatePostViewById(props.post.id)
 }
 const showComment = () => {
     commentState.value = !commentState.value

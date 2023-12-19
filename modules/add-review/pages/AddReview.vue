@@ -141,10 +141,6 @@
             <img src="../../../assets/icon/negative.png" alt="">
         </button>
     </div>
-    <p>
-        {{ postObj }}
-        {{ isAllFieldsFilledExceptWorkTimeTo }}
-    </p>
     <button @click="addReview" :disabled="!isAllFieldsFilledExceptWorkTimeTo">Опубликовать</button>
   </div>
 </template>

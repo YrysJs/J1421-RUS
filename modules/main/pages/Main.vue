@@ -8,7 +8,7 @@
         <form @submit.prevent="search">
           <input type="search" v-model="queryState.search" @input="search">
         </form>
-        <button>Добавить работодателя</button>
+        <!-- <button>Добавить работодателя</button> -->
       </div>
       <div class="main-search__right">
         <button @click="addReview">

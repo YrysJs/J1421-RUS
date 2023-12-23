@@ -22,7 +22,7 @@ export default defineNuxtModule({
         path: "/profile",
         file: resolve(__dirname, "./pages/Profile.vue"),
         meta: {
-          title: 'Поддержка'
+          title: 'Мой профиль'
         }
       }
     ]

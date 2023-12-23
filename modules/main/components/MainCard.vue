@@ -37,9 +37,9 @@
         </div>
         <div class="main-card__bottom">
             <div>
-                <button> 545 <img src="../../../assets/icon/view.svg" alt=""></button>
+                <button> {{ post.views_count }} <img src="../../../assets/icon/view.svg" alt=""></button>
                 <button @click="likeedPost"> {{ post.likes_count }} <img src="../../../assets/icon/like.svg" alt=""></button>
-                <button @click="showComment"> 545 <img src="../../../assets/icon/comment.svg" alt=""></button>
+                <button @click="showComment"> {{ post.comments_count }} <img src="../../../assets/icon/comment.svg" alt=""></button>
             </div>
             <button class="main-card__bottom-more" @click="showCard">
                 {{ !cardState ? 'Читать далее': 'Скрыть' }}
@@ -50,18 +50,18 @@
         <div class="main-card__right-item">
             {{ post.company }}
         </div>
-        <div class="main-card__right-item">
+        <!-- <div class="main-card__right-item">
             <span>Общая оценка компании</span>
-            <span class="total">{{ post.average_rating.toFixed(1) }}</span>
+            <span class="total"></span>
             <div class="star">
                 <svg xmlns="http://www.w3.org/2000/svg" width="38" height="36" viewBox="0 0 38 36" fill="none">
                     <path d="M18.072 1.31085C18.4079 0.474382 19.5921 0.474381 19.928 1.31085L24.1972 11.9421C24.3402 12.2983 24.6745 12.5412 25.0575 12.5672L36.4877 13.3422C37.387 13.4032 37.7529 14.5293 37.0612 15.1073L28.2695 22.4528C27.975 22.6989 27.8473 23.0919 27.9409 23.4642L30.736 34.5744C30.9559 35.4485 29.9979 36.1446 29.2345 35.6653L19.5317 29.5738C19.2066 29.3697 18.7934 29.3697 18.4683 29.5738L8.76554 35.6653C8.00212 36.1446 7.04413 35.4485 7.26405 34.5744L10.0591 23.4642C10.1527 23.0919 10.025 22.6989 9.73046 22.4528L0.938804 15.1073C0.247074 14.5293 0.612992 13.4032 1.51232 13.3422L12.9425 12.5672C13.3255 12.5412 13.6598 12.2983 13.8028 11.9421L18.072 1.31085Z" fill="#FF9700"/>
                 </svg>
             </div>
-        </div>
+        </div> -->
         <div class="main-card__right-item">
             <span>Оценка работодателя сотрудником</span>
-            <span class="total">4.5 </span>
+            <span class="total">{{ post.average_rating.toFixed(1) }}</span>
             <div class="star">
                 <svg xmlns="http://www.w3.org/2000/svg" width="38" height="36" viewBox="0 0 38 36" fill="none">
                     <path d="M18.072 1.31085C18.4079 0.474382 19.5921 0.474381 19.928 1.31085L24.1972 11.9421C24.3402 12.2983 24.6745 12.5412 25.0575 12.5672L36.4877 13.3422C37.387 13.4032 37.7529 14.5293 37.0612 15.1073L28.2695 22.4528C27.975 22.6989 27.8473 23.0919 27.9409 23.4642L30.736 34.5744C30.9559 35.4485 29.9979 36.1446 29.2345 35.6653L19.5317 29.5738C19.2066 29.3697 18.7934 29.3697 18.4683 29.5738L8.76554 35.6653C8.00212 36.1446 7.04413 35.4485 7.26405 34.5744L10.0591 23.4642C10.1527 23.0919 10.025 22.6989 9.73046 22.4528L0.938804 15.1073C0.247074 14.5293 0.612992 13.4032 1.51232 13.3422L12.9425 12.5672C13.3255 12.5412 13.6598 12.2983 13.8028 11.9421L18.072 1.31085Z" fill="#2845DB"/>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="main-card__comment-item__top-right">
-                        {{ item.created_at }}
+                        {{ formatedDate(item.created_at) }}
                     </div>
                 </div>
                 <div class="main-card__comment-item__center">
@@ -148,13 +148,16 @@ const formatedDate = (value) => {
 const likeedPost = () => {
     store.addLike(props.post.id)
 }
-const addComment = () => {
+const addComment = async () => {
     let obj = {
         body: comment.value,
         post: props.post.id
     }
 
-    store.addComment(props.post.id, obj)
+    await store.addComment(props.post.id, obj)
+    await setTimeout(() => {
+        store.fetchPostCommentsById(props.post.id)
+    }, 1000)
 }
 </script>
 

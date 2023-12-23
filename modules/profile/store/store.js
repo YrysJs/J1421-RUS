@@ -8,8 +8,8 @@ export const useProfileStore = defineStore('profileStore', () => {
 
     //actions
     const fetchUserProfile = async () => {
-        const res = await api.get('/post/?author=1')
-        profile.value = res
+        const res = await api.get('/profile/')
+        profile.value = res.data
     }
     const uploadProfileAvatar = async (formData) => {
         const res = await api.put('/profile/avatar/', formData, {

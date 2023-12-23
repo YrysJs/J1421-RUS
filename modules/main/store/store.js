@@ -35,21 +35,21 @@ export const useMainStore = defineStore('mainStore', () => {
         const response = api.post(`post/${id}/comment/`, obj)
     }
     const fetchFields = async () => {
-        const location = await api.get('/location/');
+        const location = await axios.get('https://web-production-51b6.up.railway.app/api/location/');
         locationList.value = location.data;
 
-        const activity = await api.get('/activity/')
+        const activity = await axios.get('https://web-production-51b6.up.railway.app/api/activity/')
         activityList.value = activity.data
 
-        const position = await api.get('/position/');
+        const position = await axios.get('https://web-production-51b6.up.railway.app/api/position/');
         positionList.value = position.data
     }
     const fetchPostCommentsById = async (id) => {
-        const { data } = await api.get(`/post/${id}/comment/`)
+        const { data } = await axios.get(`https://web-production-51b6.up.railway.app/api/post/${id}/comment/`)
         postComments.value = data    
     }
     const updatePostViewById = async (id) => {
-        const response = await api.get(`/post/view/${id}/`)
+        const response = await api.post(`/post/view/${id}/`)
     }
 
     //getters

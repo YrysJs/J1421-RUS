@@ -5,7 +5,8 @@
         <form class="sign-up__form">
           <div class="sign-up__item">
             <label class="sign-up__image-prev" for="image">
-              <img src="https://img-new.cgtrader.com/uploads/user/136501/forum_images/1c94c4c9-e960-4505-993b-5bfc48f5a485.png" alt="">
+              <img v-if="profile.getProfile.avatar" :src="profile.getProfile.avatar" alt="">
+              <img v-else src="https://img-new.cgtrader.com/uploads/user/136501/forum_images/1c94c4c9-e960-4505-993b-5bfc48f5a485.png" alt="">
             </label>
             <input id="image" style="display: none;" type="file" accept="img/*" @change="uploadFile">
           </div>
